@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 조작 - JavaScript 기초</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/code.css">
+    <script>
+        (function () {
+            try {
+                var theme = localStorage.getItem('jsb-theme') || 'light';
+                document.documentElement.dataset.theme = theme;
+            } catch (e) {}
+        })();
+    </script>
+</head>
+<body data-page="10-dom" data-root="../">
+    <a href="#content" class="skip-link">본문으로 건너뛰기</a>
+    <header class="site-header" id="site-header"></header>
+
+    <div class="layout">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="content" id="content">
+            <h1>DOM 조작</h1>
+            <p class="lead">JavaScript로 웹 페이지의 요소를 변경하는 방법을 배웁니다.</p>
+
+            <section class="callout" style="border-left-color: #3498db;">
+                <h3 class="callout-title">📚 학습 목표</h3>
+                <ul class="steps">
+                    <li>DOM 요소 선택하기</li>
+                    <li>요소의 내용과 속성 변경하기</li>
+                    <li>CSS 스타일 적용하기</li>
+                    <li>클래스 추가/제거하기</li>
+                    <li>새 요소 만들고 삭제하기</li>
+                </ul>
+            </section>
+
+            <h2>DOM이란?</h2>
+            <p>DOM(Document Object Model)은 HTML을 트리 구조로 나타낸 것입니다. JavaScript로 이 트리를 조작해서 웹 페이지를 동적으로 변경합니다.</p>
+
+            <pre><code>document → HTML 문서
+├── head
+└── body
+    ├── h1
+    ├── p
+    └── div</code></pre>
+
+            <h2>요소 선택하기</h2>
+
+            <h3>1. getElementById — ID로 선택</h3>
+            <pre><code>document.getElementById("아이디")</code></pre>
+
+            <div class="playground">
+                <pre><code>// HTML: &lt;p id="demo"&gt;안녕하세요&lt;/p&gt;
+// 실제로는 아래 코드가 실행됨 (데모용)
+
+let element = {textContent: "안녕하세요"};  // 시뮬레이션
+console.log(element.textContent);  // 안녕하세요</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>2. querySelector — CSS 선택자로 선택</h3>
+            <pre><code>document.querySelector("선택자")  // 첫 번째 요소만
+document.querySelectorAll("선택자") // 모든 요소</code></pre>
+
+            <div class="playground">
+                <pre><code>// 클래스로 선택
+// document.querySelector(".class-name")
+
+// 태그로 선택
+// document.querySelector("p")
+
+// ID로 선택
+// document.querySelector("#id-name")
+
+// 첫 p 태그의 텍스트 변경
+// let para = document.querySelector("p");
+// para.textContent = "새로운 텍스트";
+
+console.log("querySelector 사용 예시입니다");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>요소의 내용 변경하기</h2>
+
+            <h3>textContent — 순수 텍스트만</h3>
+            <pre><code>element.textContent = "새로운 텍스트";</code></pre>
+
+            <div class="playground">
+                <pre><code>// 예시
+let text = "저는 JavaScript를 배우고 있습니다";
+console.log(text);</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>innerHTML — HTML 포함</h3>
+            <pre><code>element.innerHTML = "&lt;strong&gt;굵은 텍스트&lt;/strong&gt;";</code></pre>
+
+            <div class="playground">
+                <pre><code>// innerHTML은 HTML 태그를 인식함
+let html = "&lt;strong&gt;중요합니다&lt;/strong&gt;";
+console.log("innerHTML로 태그를 추가할 수 있습니다");
+
+// 주의: 사용자 입력이 있을 때는 조심해야 함 (XSS 취약점)</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>요소의 속성 변경하기</h2>
+
+            <h3>속성 읽기/쓰기</h3>
+            <div class="playground">
+                <pre><code>// 이미지 src 변경
+// img.src = "new-image.jpg";
+
+// 링크 href 변경
+// link.href = "https://example.com";
+
+// 입력창 value 변경
+// input.value = "입력된 값";
+
+// placeholder 설정
+// input.placeholder = "여기에 입력하세요";
+
+console.log("속성 변경 예시입니다");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>CSS 스타일 적용하기</h2>
+
+            <h3>style 속성으로 직접 변경</h3>
+            <pre><code>element.style.속성 = "값";</code></pre>
+
+            <div class="playground">
+                <pre><code>// CSS 속성은 camelCase로 쓰임
+// element.style.backgroundColor = "blue";
+// element.style.color = "white";
+// element.style.fontSize = "20px";
+// element.style.padding = "10px";
+
+console.log("스타일 변경 예시:");
+console.log("color: 텍스트 색상");
+console.log("fontSize: 글자 크기");
+console.log("backgroundColor: 배경색");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>클래스 추가/제거하기</h2>
+            <p>CSS 클래스를 사용하면 스타일을 더 쉽게 관리할 수 있습니다.</p>
+
+            <h3>add — 클래스 추가</h3>
+            <pre><code>element.classList.add("클래스명");</code></pre>
+
+            <h3>remove — 클래스 제거</h3>
+            <pre><code>element.classList.remove("클래스명");</code></pre>
+
+            <h3>toggle — 클래스 전환</h3>
+            <pre><code>element.classList.toggle("클래스명");  // 있으면 제거, 없으면 추가</code></pre>
+
+            <div class="playground">
+                <pre><code>// 시뮬레이션용 객체
+let element = {
+  classList: {
+    classes: []
+  }
+};
+
+// 클래스 추가
+element.classList.classes.push("active");
+console.log("active 클래스 추가됨");
+
+// classList 사용 예시
+// element.classList.add("highlight");
+// element.classList.remove("highlight");
+// element.classList.toggle("dark-mode");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>새 요소 만들기</h2>
+
+            <h3>createElement — 새 요소 생성</h3>
+            <pre><code>let newElement = document.createElement("태그명");</code></pre>
+
+            <h3>appendChild — 자식 요소로 추가</h3>
+            <pre><code>부모.appendChild(자식);</code></pre>
+
+            <div class="playground">
+                <pre><code>// 새 단락 만들기
+let newPara = document.createElement("p");
+newPara.textContent = "새로 추가된 단락입니다";
+
+// 부모 요소에 추가
+// document.body.appendChild(newPara);
+
+console.log("새 요소 생성 및 추가 예시입니다");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>요소 삭제하기</h2>
+
+            <h3>removeChild — 자식 요소 삭제</h3>
+            <pre><code>부모.removeChild(자식);</code></pre>
+
+            <h3>remove — 요소 자신 삭제</h3>
+            <pre><code>element.remove();</code></pre>
+
+            <div class="playground">
+                <pre><code>// 요소 삭제 예시
+// let element = document.getElementById("to-delete");
+// element.remove();
+
+// 또는
+// element.parentNode.removeChild(element);
+
+console.log("요소 삭제 예시입니다");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>실제 예제: 할일 목록</h2>
+
+            <div class="callout" style="border-left-color: #27ae60; margin: 24px 0;">
+                <h3 class="callout-title">💡 코드 예제</h3>
+                <pre><code>// HTML
+// &lt;input id="taskInput" type="text"&gt;
+// &lt;button id="addBtn"&gt;추가&lt;/button&gt;
+// &lt;ul id="taskList"&gt;&lt;/ul&gt;
+
+// JavaScript
+let taskInput = document.getElementById("taskInput");
+let addBtn = document.getElementById("addBtn");
+let taskList = document.getElementById("taskList");
+
+addBtn.addEventListener("click", function() {
+  if (taskInput.value === "") return;
+
+  // 새 리스트 아이템 만들기
+  let li = document.createElement("li");
+  li.textContent = taskInput.value;
+
+  // 목록에 추가
+  taskList.appendChild(li);
+
+  // 입력창 비우기
+  taskInput.value = "";
+});</code></pre>
+            </div>
+
+            <h2>DOM 메서드 비교</h2>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr style="background: var(--color-surface-2);">
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">메서드</th>
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">설명</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>getElementById</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">ID로 요소 선택</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>querySelector</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">CSS 선택자로 선택 (첫 번째)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>querySelectorAll</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">CSS 선택자로 선택 (모두)</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>textContent</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">순수 텍스트만 변경</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>innerHTML</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">HTML 포함해서 변경</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>style</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">CSS 스타일 직접 변경</td>
+                </tr>
+            </table>
+
+            <h2>자주 하는 실수</h2>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 1: null 확인 안 하기</h3>
+                <pre><code>// 요소가 없으면 null 반환
+let element = document.getElementById("missing");
+element.textContent = "텍스트";  // ❌ 에러! null이므로 속성 접근 불가</code></pre>
+                <p><strong>해결:</strong> 먼저 확인하세요.</p>
+                <pre><code>let element = document.getElementById("missing");
+if (element) {
+  element.textContent = "텍스트";  // ✅
+}</code></pre>
+            </div>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 2: innerHTML로 사용자 입력 받기</h3>
+                <pre><code>// ❌ 위험! XSS 취약점
+let userInput = "&lt;img src=x onerror='alert(1)'&gt;";
+element.innerHTML = userInput;  // 공격 코드 실행!</code></pre>
+                <p><strong>해결:</strong> 신뢰할 수 없는 데이터는 textContent 사용.</p>
+                <pre><code>element.textContent = userInput;  // ✅ 안전</code></pre>
+            </div>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 3: CSS 속성명을 CSS 형식으로 쓰기</h3>
+                <pre><code>element.style.background-color = "blue";  // ❌ 작동 안 함
+element.style.backgroundColor = "blue";   // ✅ camelCase 사용</code></pre>
+            </div>
+
+            <h2>연습 문제</h2>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 1: 텍스트 변경</h3>
+                <p>id가 "output"인 요소의 텍스트를 "Hello, JavaScript!"로 변경하는 코드를 작성하세요.</p>
+                <div class="playground">
+                    <pre><code>// 실제로는 이런 요소가 있다고 가정
+// &lt;p id="output"&gt;원래 텍스트&lt;/p&gt;
+
+// 코드 작성
+// let element = document.getElementById("output");
+// element.textContent = "Hello, JavaScript!";
+
+console.log("DOM 조작 예시: textContent 사용");</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 보기</summary>
+                    <pre><code>let element = document.getElementById("output");
+element.textContent = "Hello, JavaScript!";</code></pre>
+                </details>
+            </div>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 2: 스타일 변경</h3>
+                <p>요소의 배경색을 파란색, 텍스트 색을 흰색으로 변경하는 코드를 작성하세요.</p>
+                <div class="playground">
+                    <pre><code>// 가정: let element = document.getElementById("box");
+
+// element.style.backgroundColor = "blue";
+// element.style.color = "white";
+
+console.log("backgroundColor와 color를 camelCase로 쓰는 것이 중요합니다");</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 보기</summary>
+                    <pre><code>let element = document.getElementById("box");
+element.style.backgroundColor = "blue";
+element.style.color = "white";</code></pre>
+                </details>
+            </div>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 3: 클래스 추가</h3>
+                <p>querySelector로 class가 "item"인 첫 번째 요소를 선택하고 "active" 클래스를 추가하세요.</p>
+                <div class="playground">
+                    <pre><code>// let element = document.querySelector(".item");
+// element.classList.add("active");
+
+console.log("querySelector('.item')로 첫 번째 .item 요소를 선택하고");
+console.log("classList.add('active')로 클래스를 추가합니다");</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 보기</summary>
+                    <pre><code>let element = document.querySelector(".item");
+element.classList.add("active");</code></pre>
+                </details>
+            </div>
+
+            <nav id="pager" class="pager"></nav>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>© JavaScript 기초 튜토리얼</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/playground.js"></script>
+</body>
+</html>

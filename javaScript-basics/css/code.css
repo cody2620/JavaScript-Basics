@@ -1,0 +1,188 @@
+/* ==========================================================================
+   code.css — 코드 블록 스타일
+   - 인라인 코드(<code>)와 여러 줄 코드 블록(<pre><code>)
+   - 코드 블록 상단 라벨(.code-header)
+   - "Try it" 실행 결과 영역(.playground-output) — 기능은 다음 단계에서 구현
+   ========================================================================== */
+
+/* 코드 전용 색상 토큰 (라이트) */
+:root {
+  --code-bg: #f4f2ec;
+  --code-block-bg: #1e2127;
+  --code-block-text: #e6e6e3;
+  --code-comment: #8b949e;
+  --code-keyword: #ff7b72;
+  --code-string: #a5d6ff;
+  --code-number: #f0c94a;
+  --code-function: #d2a8ff;
+}
+
+/* 다크 테마에서는 인라인 코드 배경만 조정 (블록은 원래 어두운 배경) */
+:root[data-theme="dark"] {
+  --code-bg: #2a2e36;
+  --code-block-bg: #0f1115;
+}
+
+/* 본문 속 짧은 코드: `let` 처럼 표시 */
+:not(pre) > code {
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+  background: var(--code-bg);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* 여러 줄 코드 블록 */
+.code-block {
+  margin: 20px 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--code-block-bg);
+}
+
+/* 코드 블록 위쪽 라벨 (예: "예제", "JavaScript") */
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #a0a6b0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.code-block pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto; /* 긴 코드는 블록 안에서만 가로 스크롤 */
+  color: var(--code-block-text);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  tab-size: 2;
+}
+
+.code-block pre code {
+  font-family: inherit;
+}
+
+/* 간단한 문법 강조용 클래스 (필요한 곳에 <span class="tok-...">로 사용) */
+.tok-comment  { color: var(--code-comment); font-style: italic; }
+.tok-keyword  { color: var(--code-keyword); }
+.tok-string   { color: var(--code-string); }
+.tok-number   { color: var(--code-number); }
+.tok-function { color: var(--code-function); }
+
+/* 코드 블록 헤더 안의 작은 버튼 (복사, 실행 등) */
+.code-button {
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: transparent;
+  color: #e6e6e3;
+  font: inherit;
+  cursor: pointer;
+}
+
+.code-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* "Try it" 편집 가능한 코드 블록 */
+.playground {
+  margin: 24px 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.playground-editor {
+  background: var(--code-block-bg);
+}
+
+.playground-code {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--code-block-bg);
+  color: var(--code-block-text);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  tab-size: 2;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.playground-code:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.playground-controls {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.playground-run-btn,
+.playground-reset-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: #1e2127;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.playground-run-btn:hover,
+.playground-reset-btn:hover {
+  opacity: 0.9;
+}
+
+.playground-reset-btn {
+  background: transparent;
+  color: var(--color-accent);
+}
+
+/* "Try it" 실행 결과 영역 */
+.playground-output {
+  min-height: 40px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.25);
+  color: #c9d1d9;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.playground-empty {
+  color: var(--code-comment);
+}
+
+.playground-log {
+  color: #c9d1d9;
+}
+
+.playground-log > div {
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.playground-error {
+  color: #ff7b72;
+}
+
+.playground-error > div {
+  margin-bottom: 4px;
+}
