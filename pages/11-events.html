@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 - JavaScript 기초</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/code.css">
+    <script>
+        (function () {
+            try {
+                var theme = localStorage.getItem('jsb-theme') || 'light';
+                document.documentElement.dataset.theme = theme;
+            } catch (e) {}
+        })();
+    </script>
+</head>
+<body data-page="11-events" data-root="../">
+    <a href="#content" class="skip-link">본문으로 건너뛰기</a>
+    <header class="site-header" id="site-header"></header>
+
+    <div class="layout">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="content" id="content">
+            <h1>이벤트</h1>
+            <p class="lead">사용자의 동작에 반응하는 방법을 배웁니다.</p>
+
+            <section class="callout" style="border-left-color: #3498db;">
+                <h3 class="callout-title">📚 학습 목표</h3>
+                <ul class="steps">
+                    <li><code>addEventListener</code>로 이벤트 등록하기</li>
+                    <li>자주 사용하는 이벤트 알기</li>
+                    <li>이벤트 객체 다루기</li>
+                    <li><code>preventDefault</code>로 기본 동작 막기</li>
+                </ul>
+            </section>
+
+            <h2>이벤트란?</h2>
+            <p>이벤트는 <strong>사용자가 하는 동작</strong>입니다. 클릭, 입력, 키 누르기, 마우스 이동 등이 있습니다.</p>
+
+            <pre><code>사용자 → 클릭 → 이벤트 발생 → 코드 실행</code></pre>
+
+            <h2>addEventListener — 이벤트 등록하기</h2>
+            <p>가장 일반적인 이벤트 등록 방식입니다.</p>
+
+            <pre><code>element.addEventListener("이벤트명", function(event) {
+  // 이벤트 발생 시 실행할 코드
+});</code></pre>
+
+            <div class="playground">
+                <pre><code>// 버튼을 클릭하면 실행되는 예제
+// &lt;button id="myBtn"&gt;클릭하세요&lt;/button&gt;
+
+// let button = document.getElementById("myBtn");
+// button.addEventListener("click", function() {
+//   console.log("버튼이 클릭되었습니다!");
+// });
+
+console.log("addEventListener 사용 예시입니다");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>자주 사용하는 이벤트</h2>
+
+            <h3>마우스 이벤트</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr style="background: var(--color-surface-2);">
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">이벤트</th>
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">설명</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>click</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">요소 클릭 시</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>dblclick</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">요소 더블클릭 시</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>mouseenter</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">마우스가 요소 위로 올 때</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>mouseleave</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">마우스가 요소를 떠날 때</td>
+                </tr>
+            </table>
+
+            <div class="playground">
+                <pre><code>// click 이벤트
+// button.addEventListener("click", function() {
+//   console.log("클릭됨");
+// });
+
+// mouseenter 이벤트
+// box.addEventListener("mouseenter", function() {
+//   console.log("마우스가 들어옴");
+// });
+
+// mouseleave 이벤트
+// box.addEventListener("mouseleave", function() {
+//   console.log("마우스가 나감");
+// });
+
+console.log("마우스 이벤트 예시입니다");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>입력 이벤트</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr style="background: var(--color-surface-2);">
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">이벤트</th>
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">설명</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>input</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">입력값이 변할 때마다</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>change</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">입력 후 포커스를 잃을 때</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>focus</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">요소에 포커스가 들어올 때</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>blur</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">요소에서 포커스가 나갈 때</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>submit</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">폼이 제출될 때</td>
+                </tr>
+            </table>
+
+            <div class="playground">
+                <pre><code>// input 이벤트 (실시간)
+// textbox.addEventListener("input", function() {
+//   console.log("입력 중: " + textbox.value);
+// });
+
+// change 이벤트 (포커스 나갈 때)
+// textbox.addEventListener("change", function() {
+//   console.log("최종 값: " + textbox.value);
+// });
+
+console.log("입력 이벤트 예시입니다");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>키보드 이벤트</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr style="background: var(--color-surface-2);">
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">이벤트</th>
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">설명</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>keydown</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">키를 누를 때</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>keyup</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">키를 뗄 때</td>
+                </tr>
+            </table>
+
+            <div class="playground">
+                <pre><code>// document.addEventListener("keydown", function(event) {
+//   console.log("눌린 키: " + event.key);
+// });
+
+console.log("키보드 이벤트 예시입니다");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>이벤트 객체</h2>
+            <p>이벤트가 발생하면 콜백 함수에 <code>event</code> 객체가 전달됩니다.</p>
+
+            <div class="playground">
+                <pre><code>// button.addEventListener("click", function(event) {
+//   console.log(event);  // 이벤트 객체
+//   console.log(event.type);  // "click"
+//   console.log(event.target);  // 클릭한 요소
+// });
+
+console.log("이벤트 객체 속성:");
+console.log("- event.type: 이벤트 종류");
+console.log("- event.target: 이벤트 발생 요소");
+console.log("- event.key: 누른 키 (키보드 이벤트)");
+console.log("- event.clientX, clientY: 마우스 위치");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>preventDefault — 기본 동작 막기</h2>
+            <p>일부 요소는 기본 동작이 있습니다. 이를 막을 수 있습니다.</p>
+
+            <pre><code>event.preventDefault();  // 기본 동작 취소</code></pre>
+
+            <div class="playground">
+                <pre><code>// 예제 1: 링크 클릭 막기
+// link.addEventListener("click", function(event) {
+//   event.preventDefault();  // 페이지 이동 안 함
+//   console.log("링크 클릭했지만 이동하지 않음");
+// });
+
+// 예제 2: 폼 제출 막기
+// form.addEventListener("submit", function(event) {
+//   event.preventDefault();  // 폼이 제출되지 않음
+//   console.log("폼 제출을 중단했습니다");
+// });
+
+console.log("preventDefault() 사용 예시입니다");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>이벤트 위임 (Event Delegation)</h2>
+            <p>여러 요소에 각각 이벤트를 등록하는 대신, 부모에 하나만 등록할 수 있습니다.</p>
+
+            <div class="playground">
+                <pre><code>// 여러 리스트 항목이 있을 때
+// &lt;ul id="list"&gt;
+//   &lt;li&gt;항목 1&lt;/li&gt;
+//   &lt;li&gt;항목 2&lt;/li&gt;
+//   &lt;li&gt;항목 3&lt;/li&gt;
+// &lt;/ul&gt;
+
+// 비효율적 (3개 항목 각각에 이벤트 등록)
+// list.children[0].addEventListener("click", handler);
+// list.children[1].addEventListener("click", handler);
+// list.children[2].addEventListener("click", handler);
+
+// 효율적 (부모에 하나만 등록)
+// list.addEventListener("click", function(event) {
+//   if (event.target.tagName === "LI") {
+//     console.log("클릭된 항목: " + event.target.textContent);
+//   }
+// });
+
+console.log("이벤트 위임으로 효율성을 높일 수 있습니다");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>실제 예제: 입력 검증</h2>
+
+            <div class="callout" style="border-left-color: #27ae60; margin: 24px 0;">
+                <h3 class="callout-title">💡 예제: 이메일 검증</h3>
+                <pre><code>// HTML
+// &lt;input id="email" type="text" placeholder="이메일 입력"&gt;
+// &lt;p id="message"&gt;&lt;/p&gt;
+
+// JavaScript
+let emailInput = document.getElementById("email");
+let message = document.getElementById("message");
+
+emailInput.addEventListener("input", function() {
+  let email = emailInput.value;
+
+  // 간단한 이메일 검증
+  if (email.includes("@") && email.includes(".")) {
+    message.textContent = "✅ 유효한 이메일입니다";
+    message.style.color = "green";
+  } else {
+    message.textContent = "❌ 유효하지 않은 이메일입니다";
+    message.style.color = "red";
+  }
+});</code></pre>
+            </div>
+
+            <h2>on속성 vs addEventListener</h2>
+
+            <p><strong>on속성 (구식):</strong></p>
+            <pre><code>element.onclick = function() { ... };
+element.onmouseover = function() { ... };</code></pre>
+
+            <p><strong>addEventListener (현대식, 권장):</strong></p>
+            <pre><code>element.addEventListener("click", function() { ... });
+element.addEventListener("mouseover", function() { ... });</code></pre>
+
+            <p><strong>차이:</strong></p>
+            <ul class="steps">
+                <li>addEventListener는 여러 번 등록 가능 (on속성은 덮어씀)</li>
+                <li>addEventListener는 제거 가능 (removeEventListener)</li>
+                <li>addEventListener는 이벤트 흐름 제어 가능</li>
+            </ul>
+
+            <h2>자주 하는 실수</h2>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 1: 함수 호출 괄호 붙임</h3>
+                <pre><code>// ❌ 이렇게 하면 페이지 로드 시 즉시 실행됨
+button.addEventListener("click", sayHello());
+
+// ✅ 함수 자체를 전달
+button.addEventListener("click", sayHello);
+
+// ✅ 또는 익명 함수 사용
+button.addEventListener("click", function() {
+  sayHello();
+});</code></pre>
+            </div>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 2: this의 의미 모르기</h3>
+                <pre><code>let button = document.getElementById("btn");
+button.addEventListener("click", function() {
+  console.log(this);  // button 요소 (이벤트를 받은 요소)
+});</code></pre>
+            </div>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 3: 이벤트 객체 무시하기</h3>
+                <pre><code>// 정보가 필요할 수 있으니 항상 event 객체를 받자
+form.addEventListener("submit", function(event) {
+  event.preventDefault();  // 폼 제출 막기
+});</code></pre>
+            </div>
+
+            <h2>연습 문제</h2>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 1: 버튼 클릭 이벤트</h3>
+                <p>버튼을 클릭하면 "버튼이 클릭되었습니다!"를 출력하는 코드를 작성하세요.</p>
+                <div class="playground">
+                    <pre><code>// HTML: &lt;button id="btn"&gt;클릭&lt;/button&gt;
+
+// let button = document.getElementById("btn");
+// button.addEventListener("click", function() {
+//   console.log("버튼이 클릭되었습니다!");
+// });
+
+console.log("이벤트 등록 예시입니다");</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 보기</summary>
+                    <pre><code>let button = document.getElementById("btn");
+button.addEventListener("click", function() {
+  console.log("버튼이 클릭되었습니다!");
+});</code></pre>
+                </details>
+            </div>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 2: 입력값 표시</h3>
+                <p>입력창에서 입력할 때마다 입력값을 출력하는 코드를 작성하세요.</p>
+                <div class="playground">
+                    <pre><code>// HTML: &lt;input id="txt" type="text"&gt;
+
+// let input = document.getElementById("txt");
+// input.addEventListener("input", function() {
+//   console.log(input.value);
+// });
+
+console.log("input 이벤트 예시입니다");</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 보기</summary>
+                    <pre><code>let input = document.getElementById("txt");
+input.addEventListener("input", function() {
+  console.log(input.value);
+});</code></pre>
+                </details>
+            </div>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 3: 폼 제출 막기</h3>
+                <p>폼이 제출될 때 기본 동작을 막는 코드를 작성하세요.</p>
+                <div class="playground">
+                    <pre><code>// HTML: &lt;form id="myForm"&gt;...&lt;/form&gt;
+
+// let form = document.getElementById("myForm");
+// form.addEventListener("submit", function(event) {
+//   event.preventDefault();
+//   console.log("폼이 제출되지 않았습니다");
+// });
+
+console.log("preventDefault() 예시입니다");</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 보기</summary>
+                    <pre><code>let form = document.getElementById("myForm");
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
+  console.log("폼이 제출되지 않았습니다");
+});</code></pre>
+                </details>
+            </div>
+
+            <nav id="pager" class="pager"></nav>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>© JavaScript 기초 튜토리얼</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/playground.js"></script>
+</body>
+</html>

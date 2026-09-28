@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배열 - JavaScript 기초</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/code.css">
+    <script>
+        (function () {
+            try {
+                var theme = localStorage.getItem('jsb-theme') || 'light';
+                document.documentElement.dataset.theme = theme;
+            } catch (e) {}
+        })();
+    </script>
+</head>
+<body data-page="08-arrays" data-root="../">
+    <a href="#content" class="skip-link">본문으로 건너뛰기</a>
+    <header class="site-header" id="site-header"></header>
+
+    <div class="layout">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="content" id="content">
+            <h1>배열</h1>
+            <p class="lead">여러 값을 묶어서 관리하는 방법을 배웁니다.</p>
+
+            <section class="callout" style="border-left-color: #3498db;">
+                <h3 class="callout-title">📚 학습 목표</h3>
+                <ul class="steps">
+                    <li>배열 만들고 요소에 접근하기</li>
+                    <li>배열 메서드 사용하기 (push, pop, slice 등)</li>
+                    <li>고차함수 배우기 (map, filter, reduce)</li>
+                    <li>배열 순회하기</li>
+                </ul>
+            </section>
+
+            <h2>배열이란?</h2>
+            <p>배열은 <strong>여러 값을 하나의 변수에 저장</strong>할 때 사용합니다.</p>
+
+            <pre><code>let fruits = ["딸기", "포도", "사과"];
+
+// 각 요소는 인덱스(0부터 시작)로 접근
+fruits[0];  // "딸기"
+fruits[1];  // "포도"
+fruits[2];  // "사과"</code></pre>
+
+            <div class="playground">
+                <pre><code>let numbers = [10, 20, 30, 40, 50];
+
+console.log(numbers[0]);   // 10
+console.log(numbers[2]);   // 30
+console.log(numbers[4]);   // 50
+
+// 배열의 길이
+console.log(numbers.length);  // 5</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>배열 생성하기</h2>
+
+            <h3>대괄호 사용 (권장)</h3>
+            <div class="playground">
+                <pre><code>let empty = [];
+let numbers = [1, 2, 3];
+let mixed = [1, "text", true, null];
+
+console.log(numbers);  // [1, 2, 3]
+console.log(mixed);    // [1, "text", true, null]</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>Array 생성자 (거의 안 씀)</h3>
+            <pre><code>let arr = new Array(1, 2, 3);  // [1, 2, 3]</code></pre>
+
+            <h2>배열 메서드 — 배열 수정하기</h2>
+
+            <h3>push — 끝에 추가</h3>
+            <div class="playground">
+                <pre><code>let fruits = ["딸기", "포도"];
+fruits.push("사과");      // 배열을 수정함
+console.log(fruits);      // ["딸기", "포도", "사과"]
+
+// 여러 개 추가도 가능
+fruits.push("바나나", "오렌지");
+console.log(fruits);</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>pop — 끝에서 제거</h3>
+            <div class="playground">
+                <pre><code>let numbers = [1, 2, 3, 4, 5];
+let removed = numbers.pop();  // 마지막 요소 제거
+
+console.log(removed);   // 5 (제거된 요소)
+console.log(numbers);   // [1, 2, 3, 4]</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>unshift — 처음에 추가</h3>
+            <div class="playground">
+                <pre><code>let colors = ["빨강", "파랑"];
+colors.unshift("노랑");  // 처음에 추가
+console.log(colors);     // ["노랑", "빨강", "파랑"]</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>shift — 처음에서 제거</h3>
+            <div class="playground">
+                <pre><code>let colors = ["노랑", "빨강", "파랑"];
+let first = colors.shift();  // 처음 요소 제거
+console.log(first);  // "노랑"
+console.log(colors); // ["빨강", "파랑"]</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>slice — 부분 추출 (복사)</h3>
+            <pre><code>배열.slice(시작, 끝)  // 끝 인덱스는 포함되지 않음</code></pre>
+
+            <div class="playground">
+                <pre><code>let numbers = [1, 2, 3, 4, 5];
+
+console.log(numbers.slice(1, 3));   // [2, 3]
+console.log(numbers.slice(2));      // [3, 4, 5] (끝 생략)
+console.log(numbers);               // [1, 2, 3, 4, 5] (원본 변경 없음)</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>join — 문자열로 합치기</h3>
+            <div class="playground">
+                <pre><code>let words = ["Hello", "JavaScript", "World"];
+
+console.log(words.join(" "));        // "Hello JavaScript World"
+console.log(words.join("-"));        // "Hello-JavaScript-World"
+console.log(words.join(""));         // "HelloJavaScriptWorld"</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>배열 순회 — forEach</h2>
+            <p>배열의 각 요소에 대해 함수를 실행합니다.</p>
+
+            <div class="playground">
+                <pre><code>let fruits = ["딸기", "포도", "사과"];
+
+fruits.forEach(function(fruit) {
+  console.log(fruit);
+});
+// 출력: 딸기, 포도, 사과
+
+// 화살표 함수로 더 간단하게
+fruits.forEach(fruit => console.log(fruit));</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>고차함수 (Higher-Order Functions) ⭐</h2>
+            <p>배열의 각 요소를 변환하거나 필터링합니다.</p>
+
+            <h3>map — 각 요소를 변환하기</h3>
+            <p>배열의 모든 요소를 변환해서 새 배열을 만듭니다.</p>
+
+            <div class="playground">
+                <pre><code>let numbers = [1, 2, 3, 4];
+
+let doubled = numbers.map(num => num * 2);
+console.log(doubled);  // [2, 4, 6, 8]
+
+let squared = numbers.map(num => num ** 2);
+console.log(squared);  // [1, 4, 9, 16]
+
+// 원본은 변경되지 않음
+console.log(numbers);  // [1, 2, 3, 4]</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>filter — 조건에 맞는 요소만 선택</h3>
+            <div class="playground">
+                <pre><code>let numbers = [1, 2, 3, 4, 5, 6];
+
+// 짝수만 선택
+let evens = numbers.filter(num => num % 2 === 0);
+console.log(evens);  // [2, 4, 6]
+
+// 3 이상인 수만 선택
+let large = numbers.filter(num => num >= 3);
+console.log(large);  // [3, 4, 5, 6]</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>find — 조건에 맞는 첫 요소 찾기</h3>
+            <div class="playground">
+                <pre><code>let users = [
+  {name: "철수", age: 20},
+  {name: "영희", age: 18},
+  {name: "민준", age: 22}
+];
+
+let user = users.find(u => u.name === "영희");
+console.log(user);  // {name: "영희", age: 18}</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>reduce — 모든 요소를 하나로 합치기</h3>
+            <p>배열의 모든 요소를 합쳐서 하나의 값을 만듭니다.</p>
+
+            <div class="playground">
+                <pre><code>let numbers = [1, 2, 3, 4, 5];
+
+// 모두 더하기
+let sum = numbers.reduce((total, num) => total + num, 0);
+console.log(sum);  // 15
+
+// 모두 곱하기
+let product = numbers.reduce((total, num) => total * num, 1);
+console.log(product);  // 120</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>includes — 요소 포함 여부 확인</h2>
+            <div class="playground">
+                <pre><code>let colors = ["빨강", "파랑", "초록"];
+
+console.log(colors.includes("파랑"));   // true
+console.log(colors.includes("노랑"));   // false
+
+let numbers = [1, 2, 3, 4, 5];
+console.log(numbers.includes(3));       // true</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>배열 메서드 비교</h2>
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr style="background: var(--color-surface-2);">
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">메서드</th>
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">용도</th>
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">원본 변경?</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>push</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">끝에 추가</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">O</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>pop</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">끝에서 제거</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">O</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>slice</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">부분 추출</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">X</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>map</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">각 요소 변환</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">X</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>filter</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">조건에 맞게 선택</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">X</td>
+                </tr>
+            </table>
+
+            <h2>자주 하는 실수</h2>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 1: 인덱스 0부터 시작하는 걸 잊기</h3>
+                <pre><code>let arr = ["a", "b", "c"];
+arr[1];  // "b" (두 번째 요소)
+arr[3];  // undefined (요소가 없음)</code></pre>
+            </div>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 2: slice는 원본을 변경하지 않음</h3>
+                <pre><code>let numbers = [1, 2, 3];
+numbers.slice(0, 2);  // [1, 2]
+console.log(numbers); // [1, 2, 3] (여전히 원본!)
+
+// 올바른 사용
+numbers = numbers.slice(0, 2);  // [1, 2]</code></pre>
+            </div>
+
+            <h2>연습 문제</h2>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 1: 배열의 합 구하기</h3>
+                <p>reduce를 사용해서 배열의 모든 수의 합을 구하세요.</p>
+                <div class="playground">
+                    <pre><code>let numbers = [10, 20, 30, 40];
+let sum = numbers.reduce((total, num) => {
+  return total + num;
+}, 0);
+console.log(sum);  // 100</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 확인</summary>
+                    <p>10 + 20 + 30 + 40 = 100</p>
+                </details>
+            </div>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 2: 이름만 뽑아내기</h3>
+                <p>객체 배열에서 map을 사용해 이름만 뽑아내세요.</p>
+                <div class="playground">
+                    <pre><code>let users = [
+  {name: "철수", age: 20},
+  {name: "영희", age: 18}
+];
+
+let names = users.map(user => user.name);
+console.log(names);  // ["철수", "영희"]</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 확인</summary>
+                    <p>map 함수로 각 객체의 name 속성을 추출하면 됩니다.</p>
+                </details>
+            </div>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 3: 조건에 맞는 요소 필터링</h3>
+                <p>10 이상의 수만 남기세요.</p>
+                <div class="playground">
+                    <pre><code>let numbers = [5, 15, 3, 20, 8];
+let filtered = numbers.filter(num => num >= 10);
+console.log(filtered);  // [15, 20]</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 확인</summary>
+                    <p>filter로 조건을 만족하는 요소만 선택하면 됩니다.</p>
+                </details>
+            </div>
+
+            <nav id="pager" class="pager"></nav>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>© JavaScript 기초 튜토리얼</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/playground.js"></script>
+</body>
+</html>

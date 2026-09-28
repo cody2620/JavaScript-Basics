@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연산자 - JavaScript 기초</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/code.css">
+    <script>
+        (function () {
+            try {
+                var theme = localStorage.getItem('jsb-theme') || 'light';
+                document.documentElement.dataset.theme = theme;
+            } catch (e) {}
+        })();
+    </script>
+</head>
+<body data-page="04-operators" data-root="../">
+    <a href="#content" class="skip-link">본문으로 건너뛰기</a>
+    <header class="site-header" id="site-header"></header>
+
+    <div class="layout">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="content" id="content">
+            <h1>연산자</h1>
+            <p class="lead">값을 계산하고 비교하고 판단하는 방법을 배웁니다.</p>
+
+            <section class="callout" style="border-left-color: #3498db;">
+                <h3 class="callout-title">📚 학습 목표</h3>
+                <ul class="steps">
+                    <li>산술 연산자로 계산하기</li>
+                    <li>비교 연산자로 값 비교하기 (== vs ===)</li>
+                    <li>논리 연산자로 조건 판단하기</li>
+                    <li>삼항 연산자와 널 병합 연산자 사용하기</li>
+                </ul>
+            </section>
+
+            <h2>산술 연산자 (Arithmetic Operators)</h2>
+            <p>숫자를 계산할 때 사용합니다.</p>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr style="background: var(--color-surface-2);">
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">연산자</th>
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">설명</th>
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">예</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>+</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">더하기</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>5 + 3 = 8</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>-</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">빼기</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>5 - 3 = 2</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>*</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">곱하기</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>5 * 3 = 15</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>/</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">나누기</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>6 / 2 = 3</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>%</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">나머지</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>5 % 2 = 1</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>**</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">거듭제곱</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>2 ** 3 = 8</code></td>
+                </tr>
+            </table>
+
+            <div class="playground">
+                <pre><code>console.log(10 + 5);   // 15
+console.log(10 - 5);   // 5
+console.log(10 * 5);   // 50
+console.log(10 / 5);   // 2
+console.log(10 % 3);   // 1
+console.log(2 ** 3);   // 8</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>단축 연산자 (Shorthand)</h2>
+            <p>자주 쓰이는 계산을 더 짧게 쓸 수 있습니다.</p>
+
+            <pre><code>let x = 10;
+
+x += 5;   // x = x + 5;  → 15
+x -= 3;   // x = x - 3;  → 12
+x *= 2;   // x = x * 2;  → 24
+x /= 4;   // x = x / 4;  → 6
+
+x++;      // x = x + 1;  → 7
+x--;      // x = x - 1;  → 6</code></pre>
+
+            <div class="playground">
+                <pre><code>let count = 10;
+console.log(count);      // 10
+
+count += 5;
+console.log(count);      // 15
+
+count--;
+console.log(count);      // 14</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>비교 연산자 (Comparison Operators)</h2>
+            <p>두 값을 비교해서 참(true) 또는 거짓(false)을 반환합니다.</p>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr style="background: var(--color-surface-2);">
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">연산자</th>
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">의미</th>
+                    <th style="padding: 12px; border: 1px solid var(--color-border); text-align: left;">예</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>==</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">같다 (값만 비교)</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>5 == "5" → true</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>===</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">같다 (값과 타입 모두)</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>5 === "5" → false</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>!=</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">다르다 (값만 비교)</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>5 != "5" → false</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>!==</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">다르다 (값과 타입 모두)</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>5 !== "5" → true</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>&lt;</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">보다 작다</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>3 < 5 → true</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>&gt;</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">보다 크다</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>3 > 5 → false</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>&lt;=</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">작거나 같다</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>5 <= 5 → true</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>&gt;=</code></td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);">크거나 같다</td>
+                    <td style="padding: 12px; border: 1px solid var(--color-border);"><code>5 >= 5 → true</code></td>
+                </tr>
+            </table>
+
+            <h3>== vs === 의 중요한 차이!</h3>
+            <div class="playground">
+                <pre><code>console.log(5 == "5");      // true  (값이 같음)
+console.log(5 === "5");     // false (타입이 다름)
+
+console.log(0 == false);    // true
+console.log(0 === false);   // false
+
+// ✅ 권장: 항상 ===를 사용하세요!
+console.log(10 === 10);     // true</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>논리 연산자 (Logical Operators)</h2>
+            <p>여러 조건을 합칠 때 사용합니다.</p>
+
+            <h3>1. && (그리고 - AND)</h3>
+            <p>모든 조건이 참일 때만 참을 반환합니다.</p>
+
+            <div class="playground">
+                <pre><code>console.log(true && true);     // true
+console.log(true && false);    // false
+console.log(false && false);   // false
+
+// 실제 예
+let age = 20;
+let hasLicense = true;
+console.log(age >= 18 && hasLicense);  // true (둘 다 만족)</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>2. || (또는 - OR)</h3>
+            <p>하나라도 참이면 참을 반환합니다.</p>
+
+            <div class="playground">
+                <pre><code>console.log(true || false);    // true
+console.log(false || false);   // false
+console.log(false || true);    // true
+
+// 실제 예
+let isWeekend = false;
+let isHoliday = true;
+console.log(isWeekend || isHoliday);  // true (하나라도 만족)</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>3. ! (아니다 - NOT)</h3>
+            <p>참/거짓을 반대로 바꿉니다.</p>
+
+            <div class="playground">
+                <pre><code>console.log(!true);    // false
+console.log(!false);   // true
+
+let isLoggedIn = true;
+console.log(!isLoggedIn);  // false</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>삼항 연산자 (Ternary Operator)</h2>
+            <p>조건에 따라 다른 값을 선택하는 간단한 방법입니다.</p>
+
+            <pre><code>조건 ? 참일때 : 거짓일때
+
+let age = 20;
+let status = age >= 18 ? "성인" : "미성년자";
+console.log(status);  // "성인"</code></pre>
+
+            <div class="playground">
+                <pre><code>let score = 85;
+let grade = score >= 90 ? "A" : score >= 80 ? "B" : "C";
+console.log(grade);  // B
+
+let name = "철수";
+console.log(name === "철수" ? "맞습니다!" : "다릅니다");</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>널 병합 연산자 (??)</h2>
+            <p>값이 null 또는 undefined일 때만 기본값을 사용합니다.</p>
+
+            <pre><code>let color = null;
+let defaultColor = color ?? "파란색";
+console.log(defaultColor);  // "파란색"
+
+let name = "철수";
+let displayName = name ?? "손님";
+console.log(displayName);   // "철수"</code></pre>
+
+            <div class="playground">
+                <pre><code>let userAge = null;
+console.log(userAge ?? 0);  // 0 (null이므로 0 사용)
+
+let productPrice = 5000;
+console.log(productPrice ?? 0);  // 5000 (값이 있으므로 그대로)</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>연산자 우선순위</h2>
+            <p>계산 순서는 수학의 법칙을 따릅니다.</p>
+
+            <pre><code>// 1단계: ()
+// 2단계: **, *, /, %
+// 3단계: +, -
+// 4단계: <, >, <=, >=
+// 5단계: ==, ===, !=, !==
+// 6단계: &&
+// 7단계: ||
+
+console.log(2 + 3 * 4);      // 14 (3*4를 먼저 계산)
+console.log((2 + 3) * 4);    // 20 (2+3을 먼저 계산)</code></pre>
+
+            <h2>자주 하는 실수</h2>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 1: == 와 === 구분 안 하기</h3>
+                <pre><code>5 == "5"   // true (위험함!)
+5 === "5"  // false (안전함) ✅
+
+// 항상 === 를 사용하세요!</code></pre>
+            </div>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 2: = 와 == 헷갈리기</h3>
+                <pre><code>let x = 5;     // 할당
+if (x == 5) {} // 비교 (맞음)
+if (x = 5) {}  // 할당! (이건 위험)</code></pre>
+            </div>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 3: && 와 || 우선순위</h3>
+                <pre><code>// && 가 || 보다 먼저 계산됨
+true || false && false  // true
+(true || false) && false // false (다른 결과!)
+// 명확하게 괄호를 사용하세요!</code></pre>
+            </div>
+
+            <h2>연습 문제</h2>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 1: 산술 연산</h3>
+                <p>a = 10, b = 3일 때, 다음을 계산하고 출력하세요:
+                <br>• a + b
+                <br>• a - b
+                <br>• a * b
+                <br>• a / b
+                <br>• a % b</p>
+                <div class="playground">
+                    <pre><code>let a = 10;
+let b = 3;
+// 여기에 코드를 작성하세요</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 보기</summary>
+                    <pre><code>let a = 10;
+let b = 3;
+console.log(a + b);  // 13
+console.log(a - b);  // 7
+console.log(a * b);  // 30
+console.log(a / b);  // 3.333...
+console.log(a % b);  // 1</code></pre>
+                </details>
+            </div>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 2: 비교와 논리 연산</h3>
+                <p>다음을 계산하세요:
+                <br>• 10 > 5 && 3 < 7
+                <br>• 5 === "5" || false
+                <br>• !true</p>
+                <div class="playground">
+                    <pre><code>// 여기에 console.log로 각 식의 결과를 출력하세요
+console.log(10 > 5 && 3 < 7);
+console.log(5 === "5" || false);
+console.log(!true);</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 보기</summary>
+                    <p>각각 true, false, false가 출력됩니다.</p>
+                </details>
+            </div>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 3: 삼항 연산자</h3>
+                <p>나이가 18살 이상이면 "성인", 미만이면 "미성년자"를 출력하세요.
+                <br>(age = 25)</p>
+                <div class="playground">
+                    <pre><code>let age = 25;
+// 삼항 연산자를 사용해서 출력하세요
+console.log(/* 여기에 코드 */);</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 보기</summary>
+                    <pre><code>let age = 25;
+console.log(age >= 18 ? "성인" : "미성년자");  // 성인</code></pre>
+                </details>
+            </div>
+
+            <nav id="pager" class="pager"></nav>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>© JavaScript 기초 튜토리얼</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/playground.js"></script>
+</body>
+</html>

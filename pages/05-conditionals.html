@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>조건문 - JavaScript 기초</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/code.css">
+    <script>
+        (function () {
+            try {
+                var theme = localStorage.getItem('jsb-theme') || 'light';
+                document.documentElement.dataset.theme = theme;
+            } catch (e) {}
+        })();
+    </script>
+</head>
+<body data-page="05-conditionals" data-root="../">
+    <a href="#content" class="skip-link">본문으로 건너뛰기</a>
+    <header class="site-header" id="site-header"></header>
+
+    <div class="layout">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="content" id="content">
+            <h1>조건문</h1>
+            <p class="lead">상황에 따라 다른 코드를 실행하는 방법을 배웁니다.</p>
+
+            <section class="callout" style="border-left-color: #3498db;">
+                <h3 class="callout-title">📚 학습 목표</h3>
+                <ul class="steps">
+                    <li><code>if</code> 문으로 조건 판단하기</li>
+                    <li><code>else if</code>로 여러 조건 다루기</li>
+                    <li><code>switch</code> 문으로 경우를 나누기</li>
+                </ul>
+            </section>
+
+            <h2>if 문 — 조건에 따라 실행하기</h2>
+            <p>조건이 참(true)이면 중괄호 안의 코드를 실행합니다.</p>
+
+            <pre><code>if (조건) {
+  // 조건이 참이면 이 코드가 실행됩니다
+}</code></pre>
+
+            <div class="playground">
+                <pre><code>let age = 20;
+
+if (age >= 18) {
+  console.log("성인입니다");
+}</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>if...else — 둘 중 하나 선택하기</h2>
+            <p>조건이 참이면 if 블록, 거짓이면 else 블록을 실행합니다.</p>
+
+            <pre><code>if (조건) {
+  // 조건이 참이면 실행
+} else {
+  // 조건이 거짓이면 실행
+}</code></pre>
+
+            <div class="playground">
+                <pre><code>let score = 85;
+
+if (score >= 90) {
+  console.log("A 학점입니다");
+} else {
+  console.log("A 학점이 아닙니다");
+}</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>if...else if...else — 여러 조건 확인하기</h2>
+            <p>여러 조건을 순서대로 확인합니다.</p>
+
+            <pre><code>if (조건1) {
+  // 조건1이 참이면 실행
+} else if (조건2) {
+  // 조건1이 거짓이고 조건2가 참이면 실행
+} else if (조건3) {
+  // 조건1, 2가 거짓이고 조건3이 참이면 실행
+} else {
+  // 모든 조건이 거짓이면 실행
+}</code></pre>
+
+            <div class="playground">
+                <pre><code>let score = 85;
+
+if (score >= 90) {
+  console.log("A 학점");
+} else if (score >= 80) {
+  console.log("B 학점");
+} else if (score >= 70) {
+  console.log("C 학점");
+} else {
+  console.log("F 학점");
+}</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>신호등 예제</h3>
+            <div class="playground">
+                <pre><code>let trafficLight = "yellow";
+
+if (trafficLight === "red") {
+  console.log("🛑 멈춰!");
+} else if (trafficLight === "yellow") {
+  console.log("⚠️ 준비!");
+} else if (trafficLight === "green") {
+  console.log("🚗 출발!");
+} else {
+  console.log("❓ 무엇이지?");
+}</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>switch 문 — 경우의 수를 나누기</h2>
+            <p>값에 따라 여러 경우를 처리할 때 더 깔끔합니다.</p>
+
+            <pre><code>switch (값) {
+  case 경우1:
+    // 값이 경우1과 같으면 실행
+    break;
+  case 경우2:
+    // 값이 경우2와 같으면 실행
+    break;
+  default:
+    // 모든 경우가 아니면 실행
+}</code></pre>
+
+            <div class="playground">
+                <pre><code>let fruit = "apple";
+
+switch (fruit) {
+  case "apple":
+    console.log("사과");
+    break;
+  case "banana":
+    console.log("바나나");
+    break;
+  case "orange":
+    console.log("오렌지");
+    break;
+  default:
+    console.log("모르는 과일");
+}</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h3>요일별 처리</h3>
+            <div class="playground">
+                <pre><code>let day = 3;  // 1=월, 2=화, ..., 7=일
+
+switch (day) {
+  case 1:
+    console.log("월요일 - 학교");
+    break;
+  case 2:
+    console.log("화요일 - 학원");
+    break;
+  case 6:
+  case 7:
+    console.log("주말 - 쉬기!");
+    break;
+  default:
+    console.log("다른 요일");
+}</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>if vs switch</h2>
+            <p><strong>if...else if</strong>: 범위 조건에 좋습니다.</p>
+            <pre><code>if (score >= 90) { ... }
+else if (score >= 80) { ... }</code></pre>
+
+            <p><strong>switch</strong>: 정확한 값 비교에 좋습니다.</p>
+            <pre><code>switch (status) {
+  case "active": ...
+  case "inactive": ...
+}</code></pre>
+
+            <h2>break와 default</h2>
+
+            <h3>break가 중요한 이유</h3>
+            <pre><code>switch (fruit) {
+  case "apple":
+    console.log("사과");
+    // break가 없으면 계속 실행됨!
+  case "banana":
+    console.log("바나나");
+    break;
+}</code></pre>
+
+            <div class="playground">
+                <pre><code>// break가 없으면 아래로 계속 실행됨
+let num = 2;
+switch (num) {
+  case 1:
+    console.log("하나");
+  case 2:
+    console.log("둘");
+  case 3:
+    console.log("셋");
+  default:
+    console.log("기타");
+}
+// 출력: 둘, 셋, 기타 (모두 실행됨!)</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <h2>중첩 조건 (if 안에 if)</h2>
+            <p>조건 안에 또 다른 조건을 넣을 수 있습니다.</p>
+
+            <div class="playground">
+                <pre><code>let age = 25;
+let hasLicense = true;
+
+if (age >= 18) {
+  if (hasLicense) {
+    console.log("운전 가능");
+  } else {
+    console.log("면허증이 필요합니다");
+  }
+} else {
+  console.log("18세 이상이어야 합니다");
+}</code></pre>
+                <div class="playground-output"></div>
+            </div>
+
+            <p><strong>팁:</strong> 중첩이 너무 깊으면 읽기 어려우니, 논리 연산자(&&, ||)를 사용하는 것이 낫습니다.</p>
+
+            <pre><code>// 대신 이렇게 간단하게
+if (age >= 18 && hasLicense) {
+  console.log("운전 가능");
+}</code></pre>
+
+            <h2>자주 하는 실수</h2>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 1: = 와 == 헷갈리기</h3>
+                <pre><code>if (x = 5) {}      // ❌ 값을 할당함 (위험!)
+if (x == 5) {}     // ⚠️ 값만 비교 (타입 무시)
+if (x === 5) {}    // ✅ 값과 타입 모두 비교 (안전)</code></pre>
+            </div>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 2: switch에서 break 빠뜨리기</h3>
+                <pre><code>switch (grade) {
+  case "A":
+    console.log("훌륭합니다");
+    // break가 없으면 다음 케이스도 실행됨!
+  case "B":
+    console.log("좋습니다");
+    break;
+}</code></pre>
+            </div>
+
+            <div class="callout" style="border-left-color: #e74c3c;">
+                <h3 class="callout-title">⚠️ 실수 3: 문자열 대소문자 구분</h3>
+                <pre><code>let color = "Red";
+if (color === "red") {
+  console.log("만나지 않음!");  // "Red" !== "red"
+}
+
+// 안전하게 하려면
+if (color.toLowerCase() === "red") {
+  console.log("이제 만남!");
+}</code></pre>
+            </div>
+
+            <h2>연습 문제</h2>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 1: 홀짝 판단</h3>
+                <p>숫자가 짝수인지 홀수인지 판단하는 코드를 작성하세요. (num = 7)</p>
+                <div class="playground">
+                    <pre><code>let num = 7;
+// num을 2로 나눈 나머지가 0이면 짝수, 1이면 홀수
+if (/* 여기에 조건 */) {
+  console.log("짝수");
+} else {
+  console.log("홀수");
+}</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 보기</summary>
+                    <pre><code>let num = 7;
+if (num % 2 === 0) {
+  console.log("짝수");
+} else {
+  console.log("홀수");  // 7은 홀수
+}</code></pre>
+                </details>
+            </div>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 2: 계절 판단</h3>
+                <p>월(month)에 따라 계절을 판단하세요. (month = 3)</p>
+                <p>3~5월: 봄, 6~8월: 여름, 9~11월: 가을, 12, 1, 2월: 겨울</p>
+                <div class="playground">
+                    <pre><code>let month = 3;
+if (month >= 3 && month <= 5) {
+  console.log("봄");
+} else if (/* 여름 */) {
+  console.log("여름");
+} else if (/* 가을 */) {
+  console.log("가을");
+} else {
+  console.log("겨울");
+}</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 보기</summary>
+                    <pre><code>let month = 3;
+if (month >= 3 && month <= 5) {
+  console.log("봄");
+} else if (month >= 6 && month <= 8) {
+  console.log("여름");
+} else if (month >= 9 && month <= 11) {
+  console.log("가을");
+} else {
+  console.log("겨울");
+}</code></pre>
+                </details>
+            </div>
+
+            <div class="callout">
+                <h3 class="callout-title">문제 3: switch 문 사용</h3>
+                <p>요일 번호에 따라 요일 이름을 출력하세요. (1=월, 2=화, ... 7=일)</p>
+                <div class="playground">
+                    <pre><code>let dayNum = 3;
+switch (dayNum) {
+  case 1:
+    console.log("월요일");
+    break;
+  case 2:
+    console.log("화요일");
+    break;
+  // 나머지도 작성하세요
+}</code></pre>
+                    <div class="playground-output"></div>
+                </div>
+                <details>
+                    <summary>💡 정답 보기</summary>
+                    <pre><code>let dayNum = 3;
+switch (dayNum) {
+  case 1:
+    console.log("월요일");
+    break;
+  case 2:
+    console.log("화요일");
+    break;
+  case 3:
+    console.log("수요일");
+    break;
+  case 4:
+    console.log("목요일");
+    break;
+  case 5:
+    console.log("금요일");
+    break;
+  case 6:
+    console.log("토요일");
+    break;
+  case 7:
+    console.log("일요일");
+    break;
+}</code></pre>
+                </details>
+            </div>
+
+            <nav id="pager" class="pager"></nav>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>© JavaScript 기초 튜토리얼</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/playground.js"></script>
+</body>
+</html>
